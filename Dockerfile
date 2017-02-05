@@ -1,4 +1,6 @@
-FROM alpine:3.5
+FROM resin/armhf-alpine:3.4
+
+RUN [ "cross-build-start" ]
 
 MAINTAINER Péter Szilágyi <peterke@gmail.com>
 
@@ -11,5 +13,7 @@ RUN \
 	\
   apk del go git musl-dev && \
   rm -rf /work && rm -rf /var/cache/apk/*
+
+RUN [ "cross-build-end" ]
 
 ENTRYPOINT ["/cloudflare-dyndns"]
