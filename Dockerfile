@@ -1,18 +1,18 @@
-FROM cmosh/alpine-arm
+FROM resin/armv7hf-debian-qemu
 
 RUN [ "cross-build-start" ]
 
 MAINTAINER Péter Szilágyi <peterke@gmail.com>
 
 RUN \
-  apk add --update ca-certificates go git musl-dev && \
+  apt-get update && apt-get install ca-certificates golang git musl-dev -y && \
 	mkdir /work && export GOPATH=/work               && \
 	\
 	go get github.com/karalabe/cloudflare-dyndns      && \
 	cp /work/bin/cloudflare-dyndns /cloudflare-dyndns && \
 	\
-  apk del go git musl-dev && \
-  rm -rf /work && rm -rf /var/cache/apk/*
+  apt-get remove golang git musl-dev -y && \
+  rm -rf /work && rm -rf /var/cache/apt/*
 
 RUN [ "cross-build-end" ]
 
